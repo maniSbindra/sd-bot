@@ -20,7 +20,8 @@ server.post('/api/messages', connector.listen());
 var DialogLabels = {
     CompareProducts: 'Compare Products',
     GetDeals : 'Get Deals',
-    GetCoupons: 'Get Coupons'
+    GetCoupons: 'Get Coupons',
+    CompareWithIntent: 'Browse Products'
 };
 
 var bot = new builder.UniversalBot(connector, [
@@ -29,7 +30,7 @@ var bot = new builder.UniversalBot(connector, [
         builder.Prompts.choice(
             session,
             'Hi, what are you looking for?',
-            [DialogLabels.CompareProducts, DialogLabels.GetDeals, DialogLabels.GetCoupons],
+            [DialogLabels.CompareProducts, DialogLabels.GetDeals, DialogLabels.GetCoupons, DialogLabels.CompareWithIntent],
             {
                 maxRetries: 3,
                 retryPrompt: 'Not a valid option'
@@ -57,6 +58,8 @@ var bot = new builder.UniversalBot(connector, [
                 return session.beginDialog('GetDeals');
             case DialogLabels.GetCoupons:
                 return session.beginDialog('GetCoupons');
+            case DialogLabels.CompareWithIntent:
+                return session.beginDialog('CompareWithIntent');
         }
     }
 ]);
@@ -64,6 +67,15 @@ var bot = new builder.UniversalBot(connector, [
 bot.dialog('CompareProducts', require('./CompareProducts'));
 bot.dialog('GetDeals', require('./GetDeals'));
 bot.dialog('GetCoupons', require('./GetCoupons'));
+bot.dialog('CompareWithIntent',
+new builder.IntentDialog()
+.matches(/phone/i, 'GetPhones')
+.matches(/led/i, 'GetTelevisions') 
+.matches(/back/i||/exit/i, builder.DialogAction.endDialog()) 
+);
+
+bot.dialog('GetPhones', require('./GetPhones'));
+bot.dialog('GetTelevisions', require('./GetTelevisions'));
 
 bot.beginDialogAction("AddToCart", "/AddToCart");
 bot.beginDialogAction("BuyNow", "/BuyNow");
@@ -103,6 +115,6 @@ bot.dialog('/BuyNow', [
 
 
 // log any bot errors into the console
-bot.on('error', function (e) {
+    bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });

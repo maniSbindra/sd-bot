@@ -4,6 +4,7 @@ module.exports = [
 
     function (session) {
         session.send('Which deals do you have in mind');
+        session.endDialog(); 
         // builder.Prompts.text(session, 'Please enter Date of your Comp-off leave (dd/mm/yyyy)');
     }
     // function (session, results, next) {

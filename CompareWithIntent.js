@@ -6,7 +6,7 @@ module.exports = [
 
 function (session)
 {
-   session.send('I see you want to compare products. Tell me about the product/s you are interested in');
+   
     
 
   //dummy object - get this from database
