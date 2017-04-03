@@ -1,1 +1,1 @@
-# Scandid Sample Bot
+# Scan*** Sample Bot
