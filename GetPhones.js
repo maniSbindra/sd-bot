@@ -3,7 +3,7 @@ var builder = require('botbuilder');
 module.exports = [
 
     function (session) {
-        session.send('Add LUIS nested dialog - Phones');
+        session.send('Phones');
         session.endDialog(); 
         // builder.Prompts.text(session, 'Please enter Date of your Comp-off leave (dd/mm/yyyy)');
     }
